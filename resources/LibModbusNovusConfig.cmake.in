@@ -1,0 +1,4 @@
+set(libModbusNovus_INCLUDE_DIRS "@libModbusNovus_INCLUDE_DIRS@")
+set(libModbusNovus_LIBRARIES "@libModbusNovus_LIBRARIES@")
+set(libModbusNovus_CFLAGS "@CMAKE_C_FLAGS@")
+set(libModbusNovus_CXXFLAGS "@CMAKE_CXX_FLAGS@")
