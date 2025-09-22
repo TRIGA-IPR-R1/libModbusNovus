@@ -24,7 +24,7 @@
           buildInputs = nativeBuildInputs;
         };
         packages.default = pkgs.stdenv.mkDerivation {
-          name = "libModbusSystematomSPU";
+          name = "libModbusNovus";
           src = ./.;
           inherit nativeBuildInputs;
           inherit buildInputs;

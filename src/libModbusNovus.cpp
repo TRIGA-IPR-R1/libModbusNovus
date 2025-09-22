@@ -1,7 +1,7 @@
 /*
-libModbusNovus is a library to communicate with the SystemAtom SPU
+libModbusNovus is a library to communicate with the NOVUS devices
 using MODBUS-RTU (RS-485) on a GNU operating system.
-Copyright (C) 2023-2024 Thalles Campagnani
+Copyright (C) 2025 Thalles Campagnani
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -164,8 +164,7 @@ NOVUS_DATA libModbusNovus::N2000_get_PV()
     }
 
     // Convert data in floats variables
-    this->_p->novusData.PV       = data[0]/10;
-
+    this->_p->novusData.PV       = ((float) data[0])/10;
 
     this->_p->novusData.STATE           = 0;
     this->_p->novusData.TIME = std::chrono::system_clock::now();
@@ -197,7 +196,7 @@ NOVUS_DATA libModbusNovus::N1500_get_PV()
     }
 
     // Convert data in floats variables
-    this->_p->novusData.PV       = data[0]/10;
+    this->_p->novusData.PV       = ((float) data[0])/10;
 
     this->_p->novusData.STATE           = 0;
     this->_p->novusData.TIME = std::chrono::system_clock::now();

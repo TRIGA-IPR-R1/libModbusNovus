@@ -4,7 +4,7 @@ project(
   libModbusNovus
   VERSION 0.0.0
   DESCRIPTION "Comunicate with the NOVUS devices using MODBUS-RTU"
-  HOMEPAGE_URL "https://github.com/SEURT-CDTN/libModbusNovus"
+  HOMEPAGE_URL "https://github.com/TRIGA-IPR-R1/libModbusNovus"
   LANGUAGES CXX)
 
 find_package(PkgConfig REQUIRED)
@@ -23,25 +23,25 @@ set(CMAKE_C_STANDARD_INCLUDE_DIRECTORIES
 
 set(libModbusNovus_SRC src/libModbusNovus.cpp)
 
-add_library(modbusSystematomSPU STATIC ${libModbusNovus_SRC})
-add_library(modbusSystematomSPU::modbusSystematomSPU ALIAS modbusSystematomSPU)
+add_library(modbusNovus STATIC ${libModbusNovus_SRC})
+add_library(modbusNovus::modbusNovus ALIAS modbusNovus)
 
-target_include_directories(modbusSystematomSPU
+target_include_directories(modbusNovus
                            PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(modbusSystematomSPU PUBLIC PkgConfig::Modbus)
+target_link_libraries(modbusNovus PUBLIC PkgConfig::Modbus)
 
-add_executable(modbussystematomspu-test src/test.cpp)
-target_link_libraries(modbussystematomspu-test PRIVATE modbusSystematomSPU)
+add_executable(modbusNovus-test src/test.cpp)
+target_link_libraries(modbusNovus-test PRIVATE modbusNovus)
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/libModbusNovus/)
 install(
-  TARGETS modbusSystematomSPU
+  TARGETS modbusNovus
   LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
   ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
   RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 
-install(TARGETS modbussystematomspu-test
+install(TARGETS modbusNovus-test
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 
 set(libModbusNovus_INCLUDE_DIRS
@@ -49,9 +49,9 @@ set(libModbusNovus_INCLUDE_DIRS
 set(libModbusNovus_LIBRARIES
     ${CMAKE_INSTALL_PREFIX}/lib/libModbusNovus.a)
 configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/resources/libModbusNovusConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/resources/libModbusNovusConfig.cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/resources/LibModbusNovusConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/resources/LibModbusNovusConfig.cmake
   @ONLY)
 install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/resources/libModbusNovusConfig.cmake
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/resources/LibModbusNovusConfig.cmake
   DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/cmake/libModbusNovus)
