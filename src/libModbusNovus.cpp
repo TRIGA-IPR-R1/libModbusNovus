@@ -42,8 +42,10 @@ void libModbusNovus_license()
 
 bool libModbusNovus::tryConnect()
 {
-    // Create a new Modbus context
-    this->_p->ctx = modbus_new_rtu(this->_p->portname.c_str(), 57600, 'N', 8, 1);
+    if (this->_p->ctx == nullptr) {
+        // Não podemos conectar se a criação do contexto falhou no construtor
+        return 1; 
+    }
 
     // Set the slave address
     modbus_set_slave(this->_p->ctx, 0x01);
@@ -68,15 +70,21 @@ libModbusNovus::libModbusNovus(std::string portname)
 {
     this->_p = new libModbusNovus_private;
     this->_p->portname = portname;
-    tryConnect();
+    this->_p->flagNotConnected = true; // Começa como desconectado
+    // Apenas crie o contexto. A conexão será feita depois.
+    this->_p->ctx = modbus_new_rtu(this->_p->portname.c_str(), 57600, 'N', 8, 1);
+
+    if (this->_p->ctx == nullptr) std::cerr << stdErrorMsg("Constructor", "Failed to create Modbus context", modbus_strerror(errno));
 }
 
 libModbusNovus::~libModbusNovus() {
     // Close the Modbus connection
     if (this->_p->ctx) {
         modbus_close(this->_p->ctx);
-        //modbus_free(this->_p->ctx); //Bug na biblioteca causa falha de segmentação
+        modbus_free(this->_p->ctx); // Biblioteca estava com bug, tentativa de ver se foi solucionado
+        this->_p->ctx = nullptr;
     }
+    delete this->_p;
 }
 
 std::string  libModbusNovus::get_portname()    { return this->_p->portname; }
